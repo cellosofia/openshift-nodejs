@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo Estoy ejecutando el script run personalizado
+
+exec /usr/libexec/s2i/run

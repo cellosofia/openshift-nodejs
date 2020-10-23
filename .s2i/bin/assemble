@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo Estoy ejecutando el script assemble personalizado
+
+/usr/libexec/s2i/assemble
