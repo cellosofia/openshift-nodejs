@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     openshift.withCluster() {
-                        openshift.withProject() {
+                        openshift.withProject("${DEV_PROJECT}") {
                             if (!openshift.selector("dc", "myapp").exists()) {
                                 openshift.newApp('--as-deployment-config', '--image-stream=nodejs:12', '--code=https://github.com/cellosofia/openshift-nodejs.git', '--name=myapp', '--strategy=source')
                                 openshift.set("triggers", "dc/myapp", "--remove-all")
