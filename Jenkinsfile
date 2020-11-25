@@ -6,21 +6,21 @@ pipeline {
                 script {
                     openshift.withCluster() {
                         openshift.withProject("${DEV_PROJECT}") {
-                            if (!openshift.selector("dc", "myapp").exists()) {
-                                openshift.newApp('--as-deployment-config', '--image-stream=nodejs:12', '--code=https://github.com/cellosofia/openshift-nodejs.git', '--name=myapp', '--strategy=source')
-                                openshift.set("triggers", "dc/myapp", "--remove-all")
-                                def bc=openshift.selector("bc", "myapp").object()
+                            if (!openshift.selector("dc", "${APPLICATION_NAME}").exists()) {
+                                openshift.newApp('--as-deployment-config', '--image-stream=nodejs:12', '--code=https://github.com/cellosofia/openshift-nodejs.git', '--name=${APPLICATION_NAME}', '--strategy=source')
+                                openshift.set("triggers", "dc/${APPLICATION_NAME}", "--remove-all")
+                                def bc=openshift.selector("bc", "${APPLICATION_NAME}").object()
                                 bc.spec.strategy.sourceStrategy.incremental=true
                                 openshift.apply(bc)
-                                def dc=openshift.selector("dc", "myapp").object()
-                                openshift.selector("dc/myapp").delete()
-                                openshift.newApp('--as-deployment-config', '--image-stream=myapp', '--name=myapp', '--allow-missing-imagestream-tags')
-                                openshift.set("triggers", "dc/myapp", "--remove-all")
-                                openshift.expose("svc", "myapp")
-                                openshift.selector("bc", "myapp").cancelBuild()
-                                openshift.startBuild("myapp", "--wait")
+                                def dc=openshift.selector("dc", "${APPLICATION_NAME}").object()
+                                openshift.selector("dc/${APPLICATION_NAME}").delete()
+                                openshift.newApp('--as-deployment-config', '--image-stream=${APPLICATION_NAME}', '--name=${APPLICATION_NAME}', '--allow-missing-imagestream-tags')
+                                openshift.set("triggers", "dc/${APPLICATION_NAME}", "--remove-all")
+                                openshift.expose("svc", "${APPLICATION_NAME}")
+                                openshift.selector("bc", "${APPLICATION_NAME}").cancelBuild()
+                                openshift.startBuild("${APPLICATION_NAME}", "--wait")
                             } else {
-                                openshift.startBuild("myapp", "--wait")
+                                openshift.startBuild("${APPLICATION_NAME}", "--wait")
                             }
                         }
                     }
@@ -32,8 +32,8 @@ pipeline {
                 script {
                     openshift.withCluster() {
                         openshift.withProject() {
-                            if (openshift.selector("dc", "myapp").exists()) {
-                                openshift.selector("dc", "myapp").rollout().latest()
+                            if (openshift.selector("dc", "${APPLICATION_NAME}").exists()) {
+                                openshift.selector("dc", "${APPLICATION_NAME}").rollout().latest()
                             }
                         }
                     }
