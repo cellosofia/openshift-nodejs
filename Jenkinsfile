@@ -31,9 +31,10 @@ pipeline {
             steps {
                 script {
                     openshift.withCluster() {
-                        openshift.withProject() {
+                        openshift.withProject("${DEV_PROJECT}") {
                             if (openshift.selector("dc", "${APPLICATION_NAME}").exists()) {
                                 openshift.selector("dc", "${APPLICATION_NAME}").rollout().latest()
+                                openshift.selector("dc", "${APPLICATION_NAME}").rollout().status()
                             }
                         }
                     }
