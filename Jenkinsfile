@@ -18,9 +18,9 @@ pipeline {
                                 openshift.set("triggers", "dc/${APPLICATION_NAME}", "--remove-all")
                                 openshift.expose("svc", "${APPLICATION_NAME}")
                                 openshift.selector("bc", "${APPLICATION_NAME}").cancelBuild()
-                                openshift.startBuild("${APPLICATION_NAME}", "--wait")
+                                openshift.startBuild("${APPLICATION_NAME}", "--wait", "--follow")
                             } else {
-                                openshift.startBuild("${APPLICATION_NAME}", "--wait")
+                                openshift.startBuild("${APPLICATION_NAME}", "--wait", "--follow")
                             }
                         }
                     }
