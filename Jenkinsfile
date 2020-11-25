@@ -25,6 +25,11 @@ pipeline {
                         }
                     }
                 }
+                sh '''
+                        oc project ${DEV_PROJECT}
+                        oc get pods -o wide
+                        oc status
+                '''
             }
         }
         stage('Deploy') {
