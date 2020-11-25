@@ -14,7 +14,7 @@ pipeline {
                                 openshift.apply(bc)
                                 def dc=openshift.selector("dc", "myapp").object()
                                 openshift.selector("dc/myapp").delete()
-                                openshift.newApp('--image-stream=myapp', '--name=myapp', '--allow-missing-imagestream-tags')
+                                openshift.newApp('--as-deployment-config', '--image-stream=myapp', '--name=myapp', '--allow-missing-imagestream-tags')
                                 openshift.set("triggers", "dc/myapp", "--remove-all")
                                 openshift.expose("svc", "myapp")
                                 openshift.selector("bc", "myapp").cancelBuild()
