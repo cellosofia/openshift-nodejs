@@ -1,5 +1,17 @@
 pipeline {
-    agent any
+    options {
+        timeout(time: 45, unit: 'MINUTES')
+    }
+    environment {
+        NEXUS_SERVER=http://nexus-common.apps.na45.prod.nextcle.com/repository/nodejs
+    }
+    agent {
+        node {
+            //label 'master'
+            //label 'maven'
+            label 'nodejs'
+        }
+    }
     stages {
         stage('Build') {
             steps {
@@ -25,11 +37,6 @@ pipeline {
                         }
                     }
                 }
-                sh '''
-                        oc project ${DEV_PROJECT}
-                        oc get pods -o wide
-                        oc status
-                '''
             }
         }
         stage('Deploy') {
@@ -44,6 +51,11 @@ pipeline {
                         }
                     }
                 }
+                sh '''
+                        oc project ${DEV_PROJECT}
+                        oc get pods -o wide
+                        oc status
+                '''
             }
         }
     }
