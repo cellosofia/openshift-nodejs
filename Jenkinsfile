@@ -3,7 +3,7 @@ pipeline {
         timeout(time: 45, unit: 'MINUTES')
     }
     environment {
-        NEXUS_SERVER=http://nexus-common.apps.na45.prod.nextcle.com/repository/nodejs
+        NEXUS_SERVER="http://nexus-common.apps.na45.prod.nextcle.com/repository/nodejs"
     }
     agent {
         node {
