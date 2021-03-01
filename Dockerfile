@@ -7,4 +7,4 @@ WORKDIR /opt/app-root
 
 ADD server.js .
 
-CMD ['node', 'server.js']
+CMD ['/usr/bin/node', '/opt/app-root/server.js']
