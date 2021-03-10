@@ -41,6 +41,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    input message: "Hago el deploy?"
+                }
                 script {
                     openshift.withCluster() {
                         openshift.withProject("${DEV_PROJECT}") {
