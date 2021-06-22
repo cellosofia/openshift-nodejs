@@ -1,7 +1,15 @@
 #!/bin/bash
 
+# Restaurar artefactos guardados con save-artifacts
 
+if [ -d /tmp/artifacts/.npm ]; then
+    echo "Estoy restaurando los artefactos desde .npm"
+    mv /tmp/artifacts/.npm ${HOME}/
+fi
+
+# llamada al script assemble original
 /usr/libexec/s2i/assemble
+
 rc=$?
 
 if [ $rc -eq 0 ]; then

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Stream the npm folder tar archive to stdout
+
+if [ -d ${HOME}/.npm ]; then
+    pushd ${HOME} > /dev/null
+    tar cf - .npm
+    popd > /dev/null
+fi
