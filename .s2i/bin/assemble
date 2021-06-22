@@ -1,5 +1,12 @@
 #!/bin/bash
 
-echo Estoy ejecutando el script assemble personalizado
 
 /usr/libexec/s2i/assemble
+rc=$?
+
+if [ $rc -eq 0 ]; then
+  echo Estoy ejecutando el script assemble personalizado
+else
+  echo Hubo un error en la ejecucion del script original
+fi
+
